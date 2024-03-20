@@ -1,0 +1,130 @@
+{% extends 'layouts/base.html' %}{% load static %}
+{% block content %}
+
+<!-- ##### Intro News Area Start ##### -->
+<section class="intro-news-area section-padding-100-0 mb-70">
+    <div class="container" style="background: #fff;">
+        <div class="row justify-content-center">
+            <!-- Intro News Tabs Area -->
+            <div class="col-12 col-lg-8">
+                <div class="intro-news-tab">
+
+                    <!-- Intro News Filter -->
+                    <div class="intro-news-filter d-flex justify-content-between">
+                        <h6>All the news</h6>
+                        <nav>
+                            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                                <a class="nav-item nav-link active" id="nav1" data-toggle="tab" href="#nav-1" role="tab" aria-controls="nav-1" aria-selected="true">Latest</a>
+                            </div>
+                        </nav>
+                    </div>
+                    <div class="tab-content" id="nav-tabContent">
+
+                        <div class="tab-pane fade show active" id="nav-1" role="tabpanel" aria-labelledby="nav1">
+                            <div class="row">
+                                {% for lpost in latest_top %}
+                                <!-- Single News Area -->
+                                <div class="col-12 col-sm-6">
+                                    <div class="single-blog-post style-2 mb-5">
+                                        <!-- Blog Thumbnail -->
+                                        <div class="blog-thumbnail">
+                                            <a href="{% url 'view-post' lpost.id %}"><img src="{{lpost.banner_path.url}}" alt="{{lpost.title}}"></a>
+                                        </div>
+
+                                        <!-- Blog Content -->
+                                        <div class="blog-content">
+                                            <span class="post-date">{{lpost.date_created|date:"M d, Y"}}</span>
+                                            <a href="{% url 'view-post' lpost.id %}" class="post-title">{{lpost.title}}</a>
+                                            <a href="mailto:{{lpost.user.email}}" target="_blank" class="post-author">By {{lpost.user.username}}</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                                {% for lpost in latest_bottom %}
+                                <!-- Single News Area -->
+                                <div class="col-12 col-sm-6">
+                                    <div class="single-blog-post d-flex style-4 mb-30">
+                                        <!-- Blog Thumbnail -->
+                                        <div class="blog-thumbnail">
+                                            <a href="{% url 'view-post' lpost.id %}"><img src="{{lpost.banner_path.url}}" alt="{{lpost.title}}"></a>
+                                        </div>
+
+                                        <!-- Blog Content -->
+                                        <div class="blog-content">
+                                            <span class="post-date">{{lpost.date_created|date:"M d, Y"}}</span>
+                                            <a href="{% url 'view-post' lpost.id %}" class="post-title">{{lpost.title}}</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="single_post_content">
+                    <h2><span>Business</span></h2>
+                    <div class="single_post_content_left">
+                      <ul class="business_catgnav  wow fadeInDown">
+                        <li>
+                          <figure class="bsbig_fig"> <a href="pages/single_page.html" class="featured_img"> <img alt="" src="media/media/news_bannner/featured_img1.jpg"> <span class="overlay"></span> </a>
+                            <figcaption> <a href="pages/single_page.html">Proin rhoncus consequat nisl eu ornare mauris</a> </figcaption>
+                            <p>Nunc tincidunt, elit non cursus euismod, lacus augue ornare metus, egestas imperdiet nulla nisl quis mauris. Suspendisse a phare...</p>
+                          </figure>
+                        </li>
+                      </ul>
+                    </div>
+                    <!-- demo list category-->
+                    <div class="single_post_content_right">
+                      <ul class="spost_nav">
+                        <li>
+                          <div class="media wow fadeInDown"> <a href="pages/single_page.html" class="media-left"> <img alt="" src="media/media/news_bannner/post_img1.jpg"> </a>
+                            <div class="media-body"> <a href="pages/single_page.html" class="catg_title"> Aliquam malesuada diam eget turpis varius 1</a> </div>
+                          </div>
+                        </li>
+                        <li>
+                          <div class="media wow fadeInDown"> <a href="pages/single_page.html" class="media-left"> <img alt="" src="media/media/news_bannner/post_img2.jpg"> </a>
+                            <div class="media-body"> <a href="pages/single_page.html" class="catg_title"> Aliquam malesuada diam eget turpis varius 2</a> </div>
+                          </div>
+                        </li>
+                        <li>
+                          <div class="media wow fadeInDown"> <a href="pages/single_page.html" class="media-left"> <img alt="" src="media/media/news_bannner//post_img1.jpg"> </a>
+                            <div class="media-body"> <a href="pages/single_page.html" class="catg_title"> Aliquam malesuada diam eget turpis varius 3</a> </div>
+                          </div>
+                        </li>
+                        <li>
+                          <div class="media wow fadeInDown"> <a href="pages/single_page.html" class="media-left"> <img alt="" src="media/media/news_bannner/post_img2.jpg"> </a>
+                            <div class="media-body"> <a href="pages/single_page.html" class="catg_title"> Aliquam malesuada diam eget turpis varius 4</a> </div>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar Widget -->
+            <div class="col-12 col-sm-9 col-md-6 col-lg-4">
+                <div class="sidebar-area">
+
+                   <!-- Add Widget -->
+                   <div class="single-widget-area add-widget mb-30">
+                        <a href="#">
+                            <img src="{% static 'img/bg-img/add3.png' %}" alt="">
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- ##### Intro News Area End ##### -->
+
+<!-- ##### Add Area Start ##### -->
+<div class="big-add-area mb-100">
+    <div class="container-fluid">
+        <a href="#"><img src="{% static 'img/bg-img/add2.png' %}" alt=""></a>
+    </div>
+</div>
+<!-- ##### Add Area End ##### -->
+{% endblock content %}
