@@ -2,7 +2,7 @@
 {% block content %}
 
 <!-- ##### Intro News Area Start ##### -->
-<section class="intro-news-area section-padding-100-0 mb-70">
+<section class="intro-news-area section-padding-100-0">
     <div class="container" style="background: #fff;">
         <div class="row justify-content-center">
             <!-- Intro News Tabs Area -->
@@ -34,7 +34,7 @@
                                         <!-- Blog Content -->
                                         <div class="blog-content">
                                             <span class="post-date">{{lpost.date_created|date:"M d, Y"}}</span>
-                                            <a href="{% url 'view-post' lpost.id %}" class="post-title">{{lpost.title}}</a>
+                                            <a href="{% url 'view-post' lpost.id %}" class="post-title">{{lpost.title |truncatechars:100}}</a>
                                             <a href="mailto:{{lpost.user.email}}" target="_blank" class="post-author">By {{lpost.user.username}}</a>
                                         </div>
                                     </div>
@@ -52,7 +52,7 @@
                                         <!-- Blog Content -->
                                         <div class="blog-content">
                                             <span class="post-date">{{lpost.date_created|date:"M d, Y"}}</span>
-                                            <a href="{% url 'view-post' lpost.id %}" class="post-title">{{lpost.title}}</a>
+                                            <a href="{% url 'view-post' lpost.id %}" class="post-title">{{lpost.title |truncatechars:100}}</a>
                                         </div>
                                     </div>
                                 </div>
@@ -63,13 +63,13 @@
                     </div>
                 </div>
                 <div class="single_post_content">
-                    <h2><span>Business</span></h2>
+                    <h2><span>{{name_categories.0}}</span></h2>
                     <div class="single_post_content_left">
                       <ul class="business_catgnav  wow fadeInDown">
                         <li>
-                          <figure class="bsbig_fig"> <a href="pages/single_page.html" class="featured_img"> <img alt="" src="media/media/news_bannner/featured_img1.jpg"> <span class="overlay"></span> </a>
-                            <figcaption> <a href="pages/single_page.html">Proin rhoncus consequat nisl eu ornare mauris</a> </figcaption>
-                            <p>Nunc tincidunt, elit non cursus euismod, lacus augue ornare metus, egestas imperdiet nulla nisl quis mauris. Suspendisse a phare...</p>
+                          <figure class="bsbig_fig"> <a href="{% url 'view-post' first_category_posts.0.id %}" class="featured_img"> <img alt="" src="{{first_category_posts.0.banner_path.url}}"> <span class="overlay"></span> </a>
+                            <figcaption> <a href="{% url 'view-post' first_category_posts.0.id %}l">{{ first_category_posts.0.title }}</a> </figcaption>
+                            <p>{{first_category_posts.0.short_description |truncatechars:100}}</p>
                           </figure>
                         </li>
                       </ul>
@@ -77,43 +77,74 @@
                     <!-- demo list category-->
                     <div class="single_post_content_right">
                       <ul class="spost_nav">
+                        {% for lpost in first_category_posts %}
+                        {% if forloop.counter > 1 %}
                         <li>
-                          <div class="media wow fadeInDown"> <a href="pages/single_page.html" class="media-left"> <img alt="" src="media/media/news_bannner/post_img1.jpg"> </a>
-                            <div class="media-body"> <a href="pages/single_page.html" class="catg_title"> Aliquam malesuada diam eget turpis varius 1</a> </div>
-                          </div>
+                            <div class="media wow fadeInDown"> <a href="{% url 'view-post' lpost.id %}" class="media-left"> <img alt="" src="{{ lpost.banner_path.url }}"> </a>
+                                <div class="media-body"> <a href="{% url 'view-post' lpost.id %}" class="catg_title"> {{ lpost.title }}</a> </div>
+                            </div>
                         </li>
-                        <li>
-                          <div class="media wow fadeInDown"> <a href="pages/single_page.html" class="media-left"> <img alt="" src="media/media/news_bannner/post_img2.jpg"> </a>
-                            <div class="media-body"> <a href="pages/single_page.html" class="catg_title"> Aliquam malesuada diam eget turpis varius 2</a> </div>
-                          </div>
-                        </li>
-                        <li>
-                          <div class="media wow fadeInDown"> <a href="pages/single_page.html" class="media-left"> <img alt="" src="media/media/news_bannner//post_img1.jpg"> </a>
-                            <div class="media-body"> <a href="pages/single_page.html" class="catg_title"> Aliquam malesuada diam eget turpis varius 3</a> </div>
-                          </div>
-                        </li>
-                        <li>
-                          <div class="media wow fadeInDown"> <a href="pages/single_page.html" class="media-left"> <img alt="" src="media/media/news_bannner/post_img2.jpg"> </a>
-                            <div class="media-body"> <a href="pages/single_page.html" class="catg_title"> Aliquam malesuada diam eget turpis varius 4</a> </div>
-                          </div>
-                        </li>
+                        {% endif %}
+                        {% endfor %}
                       </ul>
+                        <div style="text-align: center;">
+                          <a href="/category/1" class="catg_title">---Xem thêm---</a>
+                        </div>
                     </div>
                 </div>
+                <div class="single_post_content">
+                  <h2><span>{{name_categories.1}}</span></h2>
+                  <div class="single_post_content_left">
+                    <ul class="business_catgnav  wow fadeInDown">
+                      <li>
+                        <figure class="bsbig_fig"> <a href="{% url 'view-post' second_category_posts.0.id %}" class="featured_img"> <img alt="" src="{{second_category_posts.0.banner_path.url}}"> <span class="overlay"></span> </a>
+                          <figcaption> <a href="{% url 'view-post' second_category_posts.0.id %}">{{ second_category_posts.0.title }}</a> </figcaption>
+                          <p>{{second_category_posts.0.short_description |truncatechars:100}}</p>
+                        </figure>
+                      </li>
+                    </ul>
+                  </div>
+                  <!-- demo list category-->
+                  <div class="single_post_content_right">
+                    <ul class="spost_nav">
+                      {% for lpost in second_category_posts %}
+                      {% if forloop.counter > 1 %}
+                      <li>
+                          <div class="media wow fadeInDown"> <a href="{% url 'view-post' lpost.id %}" class="media-left"> <img alt="" src="{{ lpost.banner_path.url }}"> </a>
+                              <div class="media-body"> <a href="{% url 'view-post' lpost.id %}" class="catg_title"> {{ lpost.title }}</a> </div>
+                          </div>
+                      </li>
+                      {% endif %}
+                      {% endfor %}
+                    </ul>
+                    <div style="text-align: center;">
+                      <a  href="/category/2" class="catg_title">---Xem thêm---</a>
+                    </div>
+                  </div>
+              </div>
             </div>
 
             <!-- Sidebar Widget -->
-            <div class="col-12 col-sm-9 col-md-6 col-lg-4">
+            <div class="col-12 col-sm-9 col-md-6 col-lg-4"  style="border-left: 5px solid #222022;">
                 <div class="sidebar-area">
 
                    <!-- Add Widget -->
                    <div class="single-widget-area add-widget mb-30">
                         <a href="#">
-                            <img src="{% static 'img/bg-img/add3.png' %}" alt="">
+                            <img src="{% static 'img/bg-img/add7.png' %}" alt="">
                         </a>
                     </div>
-
-                </div>
+                    <br>
+                    <div class="single_sidebar wow fadeInDown">
+                      <h2 style="font-family: 'Raleway', sans-serif;"><span>TÀI TRỢ</span></h2>
+                      <a class="sideAdd" href="#"><img src="{% static 'img/bg-img/add3.png' %}" alt=""></a> 
+                    </div>
+                    <br>
+                    <div class="single-widget-area add-widget mb-30">
+                      <a href="#">
+                          <img src="{% static 'img/bg-img/add8.png' %}" alt="">
+                      </a>
+                  </div>
             </div>
         </div>
     </div>
@@ -121,9 +152,9 @@
 <!-- ##### Intro News Area End ##### -->
 
 <!-- ##### Add Area Start ##### -->
-<div class="big-add-area mb-100">
+<div class="big-add-area">
     <div class="container-fluid">
-        <a href="#"><img src="{% static 'img/bg-img/add2.png' %}" alt=""></a>
+        <a href="#"><img src="{% static 'img/bg-img/add5.jpg' %}" alt=""></a>
     </div>
 </div>
 <!-- ##### Add Area End ##### -->

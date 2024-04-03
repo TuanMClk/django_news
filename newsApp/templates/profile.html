@@ -1,21 +1,21 @@
 {% extends 'layouts/base.html' %} {% block content%}
-<div class="container mb-5 pb-5">
+<div class="container mb-5 pb-5" style="background-color: white;">
     <div class="row justify-content-center">
         <div class="col-lg-7 col-md-10 col-sm-12 col-xs-12">
             <div class="card shadow rounded-0">
                 <div class="card-header">
-                    <div class="h5 card-title fw-bold">My Profile</div>
+                    <div class="h5 card-title fw-bold">Hồ sơ của tôi</div>
                 </div>
                 <div class="card-body">
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-md-8">
                                 <dl>
-                                    <dt class="text-muted">Fullname</dt>
+                                    <dt class="text-muted">Họ và tên</dt>
                                     <dd class="ps-4">{{ user.first_name }} {{ user.last_name }}</dd>
                                     <dt class="text-muted">Email</dt>
                                     <dd class="ps-4">{{ user.email }}</dd>
-                                    <dt class="text-muted">Username</dt>
+                                    <dt class="text-muted">Tên đăng nhập</dt>
                                     <dd class="ps-4">{{ user.username }}</dd>
                                 </dl>
                             </div>
@@ -24,8 +24,8 @@
                 </div>
                 <div class="card-footer">
                     <div class="d-flex w-100 text-end justify-content-end">
-                        <a href="{% url 'update-password' %}" class="btn btn btn-light border btn-sm bg-gradient rounded-0 me-2">Update Password</a>
-                        <a href="{% url 'update-profile' %}" class="btn btn btn-primary btn-sm bg-gradient rounded-0">Update Profile</a>
+                        <a href="{% url 'update-password' %}" class="btn btn btn-light border btn-sm bg-gradient rounded-0 me-2">Cập nhập mật khẩu</a>
+                        <a href="{% url 'update-profile' %}" class="btn btn btn-primary btn-sm bg-gradient rounded-0">Cập nhật hồ sơ</a>
                     </div>
                 </div>
             </div>

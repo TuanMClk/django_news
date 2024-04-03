@@ -3,16 +3,35 @@ from django.contrib.auth import authenticate, login, logout, update_session_auth
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.contrib import messages
+import requests
+from datetime import datetime
+from babel.dates import format_date
 from django.contrib.auth.models import User
 
 import json
 from newsApp import models, forms
 def context_data():
+    # lấy api thời tiết
+    api_key = 'a22ce9d5604fc535a5e7eeed45a581f8'  # Thay YOUR_API_KEY bằng API key của bạn
+    city = 'hanoi'
+    url = f'https://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}&lang=vi&units=metric'
+    response = requests.get(url)
+    data = response.json()
+
+    #lấy thời gian hiện tại 
+    current_date = datetime.now()
+    #format định dạng tiếng việt
+    formatted_date = format_date(current_date, "EEEE, d MMMM y", locale='vi_VN')
     context = {
-        'site_name': 'Simple News Portal',
-        'page' : 'home',
+        'site_name': 'NewsBox',
+        'page' : 'Trang chủ',
         'page_title' : 'News Portal',
         'categories' : models.Category.objects.filter(status = 1).all(),
+        'temperature' : data['main']['temp'],
+        'current_date' : formatted_date,
+        'city' : data['name'],
+        'weather_description' : data['weather'][0]['description'],
+        'icon_code' : data['weather'][0]['icon']
     }
     return context
 
@@ -20,14 +39,44 @@ def context_data():
 def home(request):
     context = context_data()
     posts = models.Post.objects.filter(status = 1).order_by('-date_created').all()
+    # Lấy ra danh sách các category duy nhất
+    unique_categories = models.Post.objects.values_list('category', flat=True).distinct()
+    name_categories = models.Post.objects.values_list('category__name', flat=True).distinct()[:2]
+
+    # Lấy ra 2 danh sách bài viết có category ở vị trí đầu và thứ hai
+    first_category_posts = models.Post.objects.filter(category=unique_categories[0]).order_by('-date_created')[:5]
+    second_category_posts = models.Post.objects.filter(category=unique_categories[1]).order_by('-date_created')[:5]
     context['page'] = 'home'
-    context['page_title'] = 'Home'
+    context['page_title'] = 'Trang chủ'
     context['latest_top'] = posts[:2]
     context['latest_top_7'] = posts[:7]
     context['latest_bottom'] = posts[2:12]
-    print(posts)
+    context['first_category_posts'] = first_category_posts
+    context['second_category_posts'] = second_category_posts
+    context['name_categories'] = name_categories
+    print(context['first_category_posts'])
     return render(request, 'home.html', context)
-
+# lấy api thời tiết 
+def current_weather(request):
+    # lấy api thời tiết
+    api_key = 'a22ce9d5604fc535a5e7eeed45a581f8'  # Thay YOUR_API_KEY bằng API key của bạn
+    city = 'hanoi'
+    url = f'https://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}&lang=vi&units=metric'
+    response = requests.get(url)
+    data = response.json()
+    context = context_data()
+    context['temperature'] = data['main']['temp']
+    context['city'] = data['name']
+    context['humidity'] = data['main']['humidity']
+    context['wind'] = data['wind']['speed']
+    context['weather_description'] = data['weather'][0]['description']
+    context['icon_code'] = data['weather'][0]['icon']
+    #lấy thời gian hiện tại 
+    current_date = datetime.now()
+    #format định dạng tiếng việt
+    formatted_date = format_date(current_date, "EEEE, d MMMM y", locale='vi_VN')
+    context['current_date'] = formatted_date
+    return render(request, 'top-navigation.html', context)
 #login
 def login_user(request):
     logout(request)
@@ -68,7 +117,7 @@ def update_profile(request):
         form = forms.UpdateProfile(request.POST, instance=user)
         if form.is_valid():
             form.save()
-            messages.success(request, "Profile has been updated")
+            messages.success(request, "Đã cập nhật hồ sơ")
             return redirect("profile-page")
         else:
             context['form'] = form
