@@ -25,7 +25,7 @@
                   <nav class="classy-navbar justify-content-between" id="newsboxNav">
   
                       <!-- Nav brand -->
-                      <a href="index.html" class="nav-brand"><img src="{% static 'img/core-img/logo.png' %}" alt=""></a>
+                      <a href="/" class="nav-brand"><img src="{% static 'img/core-img/logo.png' %}" alt=""></a>
   
                       <!-- Navbar Toggler -->
                       <div class="classy-navbar-toggler">
@@ -75,7 +75,7 @@
   <section id="newsSection">
       <div class="row">
         <div class="col-lg-12 col-md-12">
-          <div class="latest_newsarea"> <span>Latest News</span>
+          <div class="latest_newsarea"> <span>Tin nổi bật</span>
             <ul id="ticker01" class="news_sticker">
               {% for lpost in latest_top_7 %}
               <li><a style="font-size: small;" href="{% url 'view-post' lpost.id %}"><img src="{{lpost.banner_path.url}}" alt="">{{lpost.title}}</a></li>

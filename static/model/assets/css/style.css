@@ -34,14 +34,6 @@ a:focus {
   text-decoration: none
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-family: 'Oswald', sans-serif
-}
 
 h2 {
   line-height: 23px
@@ -378,7 +370,6 @@ img:hover {
 .navbar-inverse .navbar-nav>li>a {
   border-left: 1px solid #383838;
   color: #ddd;
-  font-family: 'Oswald', sans-serif;
   display: inline-block;
   height: 50px;
   line-height: 50px;
@@ -432,7 +423,6 @@ img:hover {
   color: #ddd;
   background-color: #222;
   padding: 10px 20px;
-  font-family: 'Oswald', sans-serif;
   -webkit-transition: all 0.5s;
   -mz-transition: all 0.5s;
   -ms-transition: all 0.5s;
@@ -464,7 +454,6 @@ img:hover {
 
 .latest_newsarea span {
   color: #fff;
-  font-family: Oswald, sans-serif;
   font-size: 15px;
   left: 0;
   line-height: 1.8em;
@@ -699,7 +688,6 @@ img:hover {
 .latest_post>h2 {
   background: none repeat scroll 0 0 #151515;
   color: #fff;
-  font-family: 'Oswald', sans-serif;
   font-size: 18px;
   margin-top: 5px;
   font-weight: 400;
@@ -785,7 +773,6 @@ img:hover {
 .single_post_content>h2 {
   background: none repeat scroll 0 0 #151515;
   color: #fff;
-  font-family: 'Oswald', sans-serif;
   font-size: 18px;
   font-weight: 400;
   margin-bottom: 10px;
@@ -830,7 +817,6 @@ img:hover {
 
 .bsbig_fig figcaption {
   color: #333;
-  font-family: "Oswald", sans-serif;
   font-size: 23px;
   font-weight: 300;
   margin-top: 10px;
@@ -1107,7 +1093,6 @@ figure.effect-layla:hover img {
 .single_sidebar>h2 {
   background: none repeat scroll 0 0 #151515;
   color: #fff;
-  font-family: "Oswald", sans-serif;
   font-size: 18px;
   font-weight: 400;
   margin-bottom: 10px;
@@ -1164,7 +1149,6 @@ figure.effect-layla:hover img {
   font-size: 15px;
   border-radius: 0;
   border: none;
-  font-family: "Oswald", sans-serif;
   -webkit-transition: all 0.5s;
   -mz-transition: all 0.5s;
   -ms-transition: all 0.5s;
@@ -1285,7 +1269,6 @@ figure.effect-layla:hover img {
   width: 50%;
   text-align: right;
   padding-top: 5px;
-  color: #222
 }
 
 .developer a {

@@ -31,7 +31,8 @@ def context_data():
         'current_date' : formatted_date,
         'city' : data['name'],
         'weather_description' : data['weather'][0]['description'],
-        'icon_code' : data['weather'][0]['icon']
+        'icon_code' : data['weather'][0]['icon'],
+        'latest_top_7' :  models.Post.objects.filter(status = 1).order_by('-date_created')[:7]
     }
     return context
 

@@ -8,7 +8,7 @@
 
 <style>
     .comment_area ol:empty:after {
-        content: "No comment has been posted yet.";
+        content: "Không có bình luận nào .";
         text-align: center;
         color: var(--gray);
         font-style: italic;
@@ -57,7 +57,7 @@
 
                 <!-- Comment Area Start -->
                 <div class="comment_area clearfix mb-100">
-                    <h4 class="mb-50">Comments</h4>
+                    <h4 class="mb-50">Bình luận</h4>
 
                     <ol>
                         {% for comment in comments %}
@@ -86,7 +86,7 @@
                 </div>
 
                 <div class="post-a-comment-area mb-30 clearfix">
-                    <h4 class="mb-50">Leave a Comment</h4>
+                    <h4 class="mb-50">Để lại bình luận</h4>
 
                     <!-- Reply Form -->
                     <div class="contact-form-area">
@@ -106,13 +106,13 @@
                                 <input type="hidden" name="name" value="{{user.first_name}} {{user.last_name}}">
                                 <input type="hidden" name="email" value="{{user.email}}"> {% endif %}
                                 <div class="col-12">
-                                    <input type="text" class="form-control" id="subject" name="subject" placeholder="Subject">
+                                    <input type="text" class="form-control" id="subject" name="subject" placeholder="Tiêu đề">
                                 </div>
                                 <div class="col-12">
-                                    <textarea name="message" class="form-control" id="message" name="message" cols="30" rows="10" placeholder="Message"></textarea>
+                                    <textarea name="message" class="form-control" id="message" name="message" cols="30" rows="10" placeholder="Nội dung"></textarea>
                                 </div>
                                 <div class="col-12">
-                                    <button class="btn newsbox-btn mt-30" type="submit">Submit Comment</button>
+                                    <button class="btn newsbox-btn mt-30" type="submit">Gửi</button>
                                 </div>
                             </div>
                         </form>
@@ -131,9 +131,9 @@
                         </a>
                     </div>
 
-                    <!-- Latest News Widget -->
+                    <!-- Tin nổi bật Widget -->
                     <div class="single-widget-area news-widget mb-30">
-                        <h4>Latest News</h4>
+                        <h4>Tin nổi bật</h4>
 
                         {% for lpost in latest %}
                         <!-- Single News Area -->
