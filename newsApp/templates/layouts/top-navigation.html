@@ -103,11 +103,13 @@
       link.addEventListener('click', function(event) {
         event.preventDefault();
         var url = window.location.href;
+        window.open('http://facebook.com/sharer/sharer.php?u='+encodeURIComponent(url), '', 'left=0,top=0,width=650,height=420,personalbar=0,toolbar=0,scrollbars=0,resizable=0');
+        //var url = window.location.href;
         // Copy URL vào clipboard
         navigator.clipboard.writeText(url)
           .then(function() {
             // Thông báo khi sao chép thành công
-            alert('URL đã được sao chép!');
+            alert(url);
           })
           .catch(function(err) {
             // Xử lý lỗi nếu không thể sao chép

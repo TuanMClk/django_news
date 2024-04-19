@@ -26,18 +26,18 @@
     <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
         <div class="card card-default rounded-0 shadow">
             <div class="card-header">
-                <h4 class="card-title"><b>Login</b></h4>
+                <h4 class="card-title"><b>Đăng nhập</b></h4>
             </div>
             <div class="card-body">
                 <div class="container-fluid">
                     <form id="login-user">
                         {% csrf_token %}
                         <div class="form-group mb-3">
-                            <label for="username" class="control-label">Username</label>
+                            <label for="username" class="control-label">Tên đăng nhập</label>
                             <input type="text" class="form-control rounded-0" autofocus name="username" id="username" required="required">
                         </div>
                         <div class="form-group mb-3">
-                            <label for="password" class="control-label">Password</label>
+                            <label for="password" class="control-label">Mật khẩu</label>
                             <input type="password" class="form-control rounded-0" name="password" id="password" required="required">
                         </div>
                         <div class="form-group mb-3">
@@ -46,7 +46,7 @@
                                     {% comment %} <a href="javascript:void(0)" id="find_result">View Student Results</a> {% endcomment %}
                                 </div>
                                 <button class="btn btn-sm rounded-0 btn-primary">
-                                        Login
+                                        Đăng nhập
                                     </button>
                             </div>
                         </div>

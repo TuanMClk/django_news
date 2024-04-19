@@ -49,8 +49,8 @@
                 </div>
                 {% if actions %}
                 <div class="mb-3">
-                    <a href="{% url 'edit-post' post.id %}" class="btn btn-primary btn-sm rounded-0"><i class="fa fa-edit"></i> Edit Post</a>
-                    <button type="button" id="delete-post" class="btn btn-danger btn-sm rounded-0"><i class="fa fa-trash"></i> Delete Post</button>
+                    <a href="{% url 'edit-post' post.id %}" class="btn btn-primary btn-sm rounded-0"><i class="fa fa-edit"></i> Sửa bài viết</a>
+                    <button type="button" id="delete-post" class="btn btn-danger btn-sm rounded-0"><i class="fa fa-trash"></i> Xóa bài viết</button>
                 </div>
                 {% endif %}
                 <div class="post-details-content mb-100">{{post.content|safe}}</div>
@@ -133,9 +133,9 @@
 
                     <!-- Tin nổi bật Widget -->
                     <div class="single-widget-area news-widget mb-30">
-                        <h4>Tin nổi bật</h4>
+                        <h4>Bài viết có cùng chủ đề</h4>
 
-                        {% for lpost in latest %}
+                        {% for lpost in related_posts %}
                         <!-- Single News Area -->
                         <div class="single-blog-post d-flex style-4 mb-30">
                             <!-- Blog Thumbnail -->
@@ -146,6 +146,7 @@
                             <!-- Blog Content -->
                             <div class="blog-content">
                                 <span class="post-date">{{lpost.date_created|date:"M d, Y"}}</span>
+                                <!-- <div href="#"><i class="fa fa-tags"></i>{{post.category}}</div> -->
                                 <a href="{% url 'view-post' lpost.pk %}" class="post-title">{{lpost.title}}</a>
                             </div>
                         </div>
@@ -157,6 +158,25 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLabel">Xác nhận xóa bài viết</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Bạn có chắc chắn muốn xóa bài viết này không?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                    <button type="button" class="btn btn-danger" id="confirmDelete">Xác nhận</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </section>
 {% endblock content %} {% block javascripts %}
 <script>
@@ -164,27 +184,30 @@
         if ($('.single_comment_area').length <= 0) {
             $('.comment_area>ol').html('')
         }
-        $('#delete-post').click(function() {
-            if (confirm("Are you sure to delete this post?") === true) {
-                start_loader()
-                $.ajax({
-                    url: '{% url "delete-post" post.id %}',
-                    error: err => {
-                        console.error(err)
-                        alert("An error occurred.")
-                        end_loader()
-                    },
-                    success: function(resp) {
-                        if (resp.status == 'success') {
-                            location.replace('{% url "all-posts" %}')
-                        } else if (!!resp.msg) {
-                            alert(resp.msg)
-                        }
-                        end_loader()
-                    }
-                })
+$('#delete-post').click(function() {
+    $('#deleteModal').modal('show');
+
+    $('#confirmDelete').click(function() {
+        start_loader();
+        $.ajax({
+            url: '{% url "delete-post" post.id %}',
+            error: err => {
+                console.error(err);
+                alert("An error occurred.");
+                end_loader();
+            },
+            success: function(resp) {
+                if (resp.status == 'success') {
+                    location.replace('{% url "all-posts" %}');
+                } else if (!!resp.msg) {
+                    alert(resp.msg);
+                }
+                end_loader();
             }
-        })
+        });
+        $('#deleteModal').modal('hide');
+    });
+})
         $('.delete-comment').click(function() {
             var url = $(this).attr('data-url')
             if (confirm("Are you sure to delete this comment?") === true) {

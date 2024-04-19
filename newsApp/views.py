@@ -7,6 +7,7 @@ import requests
 from datetime import datetime
 from babel.dates import format_date
 from django.contrib.auth.models import User
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 import json
 from newsApp import models, forms
@@ -55,7 +56,6 @@ def home(request):
     context['first_category_posts'] = first_category_posts
     context['second_category_posts'] = second_category_posts
     context['name_categories'] = name_categories
-    print(context['first_category_posts'])
     return render(request, 'home.html', context)
 # lấy api thời tiết 
 def current_weather(request):
@@ -94,9 +94,9 @@ def login_user(request):
                 login(request, user)
                 resp['status']='success'
             else:
-                resp['msg'] = "Incorrect username or password"
+                resp['msg'] = "Sai tên đăng nhập hoặc mật khẩu"
         else:
-            resp['msg'] = "Incorrect username or password"
+            resp['msg'] = "Sai tên đăng nhập hoặc mật khẩu"
     return HttpResponse(json.dumps(resp),content_type='application/json')
 
 #Logout
@@ -113,7 +113,6 @@ def update_profile(request):
     if not request.method == 'POST':
         form = forms.UpdateProfile(instance=user)
         context['form'] = form
-        print(form)
     else:
         form = forms.UpdateProfile(request.POST, instance=user)
         if form.is_valid():
@@ -183,7 +182,7 @@ def save_post(request):
                 postID = request.POST['id']
             resp['id'] = postID
             resp['status'] = 'success'
-            messages.success(request, "Post has been saved successfully.")
+            messages.success(request, "Thêm bài viết thành công.")
         else:
             for field in form:
                 for error in field.errors:
@@ -201,7 +200,10 @@ def view_post(request, pk=None):
     post = models.Post.objects.get(id = pk)
     context['page'] = 'post'
     context['page_title'] = post.title
+    print(post.category_id)
     context['post'] = post
+    related_posts = models.Post.objects.filter(status=1, category=post.category).exclude(id=pk).order_by('-date_created')[:10]
+    context['related_posts'] = related_posts
     context['latest'] = models.Post.objects.exclude(id=pk).filter(status = 1).order_by('-date_created').all()[:10]
     context['comments'] = models.Comment.objects.filter(post=post).all()
     context['actions'] = False
@@ -243,34 +245,58 @@ def list_posts(request):
     context = context_data()
     context['page'] = 'all_post'
     context['page_title'] = 'All Posts'
-    if request.user.is_superuser:
-        context['posts'] = models.Post.objects.order_by('-date_created').all()
-    else:
-        context['posts'] = models.Post.objects.filter(user=request.user).all()
-
-    context['latest'] = models.Post.objects.filter(status = 1).order_by('-date_created').all()[:10]
     
+    if request.user.is_superuser:
+        post_list = models.Post.objects.order_by('-date_created').all()
+    else:
+        post_list = models.Post.objects.filter(user=request.user).all()
+    
+    # Phân trang
+    paginator = Paginator(post_list, 10)  # Số lượng bài viết trên mỗi trang
+    page = request.GET.get('page')
+    try:
+        posts = paginator.page(page)
+    except PageNotAnInteger:
+        # Nếu page không phải số nguyên, trả về trang đầu tiên
+        posts = paginator.page(1)
+    except EmptyPage:
+        # Nếu page ngoài phạm vi, trả về trang cuối cùng
+        posts = paginator.page(paginator.num_pages)
+
+    context['posts'] = posts
+    context['latest'] = models.Post.objects.filter(status=1).order_by('-date_created').all()[:10]
+
     return render(request, 'posts.html', context)
 
 
-def category_posts(request,pk=None):
+def category_posts(request, pk=None):
     context = context_data()
+    
     if pk is None:
-        messages.error(request,"File not Found")
+        messages.error(request, "File not Found")
         return redirect('home-page')
+    
     try:
         category = models.Category.objects.get(id=pk)
-    except:
-        messages.error(request,"File not Found")
+    except models.Category.DoesNotExist:
+        messages.error(request, "Category not found")
         return redirect('home-page')
 
     context['category'] = category
     context['page'] = 'category_post'
     context['page_title'] = f'{category.name} Posts'
-    context['posts'] = models.Post.objects.filter(status = 1, category = category).all()
-        
-    context['latest'] = models.Post.objects.filter(status = 1).order_by('-date_created').all()[:10]
-    
+
+    # Lấy danh sách bài viết của danh mục
+    post_list = models.Post.objects.filter(status=1, category=category).order_by('-date_created')
+
+    # Phân trang
+    paginator = Paginator(post_list, 10)  # 10 bài viết mỗi trang
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    context['posts'] = page_obj
+    context['latest'] = models.Post.objects.filter(status=1).order_by('-date_created')[:10]
+
     return render(request, 'category.html', context)
 
 @login_required

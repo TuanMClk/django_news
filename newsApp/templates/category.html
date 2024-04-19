@@ -1,7 +1,7 @@
 {% extends 'layouts/base.html' %}{% load static %} {% block content %}
 <div class="news-area section-padding-100-70" style="background-color: white;">
     <div class="container">
-        <h3 class="text-center"><b>{{category.name}} Posts</b></h3>
+        <h3 class="text-center"><b>{{category.name}}</b></h3>
         <center>
             <hr class="w-25">
         </center>
@@ -25,6 +25,19 @@
                         </div>
                     </div>
                     {% endfor %}
+                </div>
+                <!-- Phân trang -->
+                <div class="pagination justify-content-center">
+                    <ul class="pagination">               
+                        {% for num in posts.paginator.page_range %}
+                            {% if num == posts.number %}
+                                <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+                            {% else %}
+                                <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+                            {% endif %}
+                        {% endfor %}
+                
+                    </ul>
                 </div>
             </div>
 

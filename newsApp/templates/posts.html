@@ -26,7 +26,19 @@
                     </div>
                     {% endfor %}
                 </div>
-
+                <!-- Phân trang -->
+                <div class="pagination justify-content-center">
+                    <ul class="pagination">               
+                        {% for num in posts.paginator.page_range %}
+                            {% if num == posts.number %}
+                                <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+                            {% else %}
+                                <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+                            {% endif %}
+                        {% endfor %}
+                
+                    </ul>
+                </div>
             </div>
 
             <div class="col-12 col-md-4 col-lg-3">
